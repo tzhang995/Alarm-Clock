@@ -19,7 +19,7 @@ def tweetfu(name,filename):
     }
 
   api = get_api(cfg)
-  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!!"
+  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!! #TerribleHack"
   try:
     status = api.update_status(status=tweet) 
   except:
@@ -73,7 +73,7 @@ def printfile(myname):
             break
     print(filename)
     tweetfu(myname,filename)
-    #os.remove(fullfilename)
+    os.remove(fullfilename)
 
 class Alarm(threading.Thread):
     def __init__(self, hours, minutes):
