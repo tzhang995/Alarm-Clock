@@ -18,7 +18,7 @@ def tweetfu(name,filename):
     }
 
   api = get_api(cfg)
-  tweet = "@" + name + " failed to stop the alarm!\n Now " + filename + "will be DELETED!!!"
+  tweet = "@" + name + " failed to stop the alarm!\n Now random file:" + filename + " will be DELETED!!!"
   status = api.update_status(status=tweet) 
   # Yes, tweet is called 'status' rather confusing
 
@@ -38,7 +38,7 @@ def threat(name):
     process2 = subprocess.Popen(bashcmd2.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
 
-def printfile(name):
+def printfile(myname):
     #threading.Timer(10.0, printfile).start()
     filename="butts"
     fullfilename=""
@@ -55,7 +55,7 @@ def printfile(name):
         if ifdone:
             break
     print(filename)
-    tweetfu(name,filename)
+    tweetfu(myname,filename)
     #os.remove(fullfilename)
  
 
@@ -89,7 +89,6 @@ alarm_MM = input("Enter the minute you want to wake up at: ")
 
 print("You want to wake up at: {0:02}:{1:02}").format(alarm_HH, alarm_MM)
 
-
 alarm = Alarm(alarm_HH, alarm_MM)
 alarm.run()
 printfile(name)
@@ -98,4 +97,3 @@ while True:
     if text == "stop":
         alarm.just_die()
         exit
-
