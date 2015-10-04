@@ -1,6 +1,2 @@
-#!/usr/bin/python
-import subprocess
-print("Pokemon")
-subprocess.call(["sleep"], shell=True)
-print("Pokemon")
-
+import os, random
+print(random.choice(os.listdir("C:\\*.*")))
