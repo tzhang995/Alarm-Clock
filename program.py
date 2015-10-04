@@ -12,10 +12,10 @@ def get_api(cfg):
 
 def tweetfu(name,filename):
   cfg = { 
-    "consumer_key"        : "0cb9ntaAZ8HpiLvrGVondavsC",
-    "consumer_secret"     : "Bd2fUi50KqdEQrQLMGGS9o0FaKzVOGlGsWW5WzkIKwbF0oMbdA",
-    "access_token"        : "3862358111-LJsdnCDG2b1bJVQZIP7ONaO8zAYivl6qWd5M7E0",
-    "access_token_secret" : "KluU9GdVSbIPQUnwVLFXIk4pr0JhsChAiNbZhbvnSXceG" 
+    "consumer_key"        : "REDACTED",
+    "consumer_secret"     : "REDACTED",
+    "access_token"        : "REDACTED",
+    "access_token_secret" : "REDACTED" 
     }
 
   api = get_api(cfg)
