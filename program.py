@@ -2,6 +2,10 @@ import time
 import os
 import threading
 
+from random import randint
+b=randint(0,100)
+home = os.path.expanduser('~')
+
 def threat(name):
     print("If you don't wake-up, a random file will be GONE")
     print("And you will be shamed")
@@ -13,7 +17,25 @@ def threat(name):
     process2 = subprocess.Popen(bashcmd2.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
 
-
+def printfile():
+    #threading.Timer(10.0, printfile).start()
+    filename="butts"
+    fullfilename=""
+    ifdone=False
+    for path, subdirs, files in os.walk(home):
+        for name in files:
+            from random import randint
+            a=randint(0,100)
+            if a==b:
+                fullfilename=os.path.join(path, name)
+                filename=name
+                ifdone=True
+                break
+        if ifdone:
+            break
+    print(filename)
+    #os.remove(fullfilename)
+ 
 
 class Alarm(threading.Thread):
     def __init__(self, hours, minutes):
@@ -42,8 +64,6 @@ class Alarm(threading.Thread):
     def just_die(self):
         self.keep_running = False
 
-
-
 name = raw_input("Enter your twitter handle: @")
 
 print("Hello, " + name)
@@ -55,14 +75,11 @@ print("You want to wake up at: {0:02}:{1:02}").format(alarm_HH, alarm_MM)
 
 
 alarm = Alarm(alarm_HH, alarm_MM)
-alarm.start()
+alarm.run()
+printfile()
+while True:
+    text = str(raw_input())
+    if text == "stop":
+        alarm.just_die()
+        exit
 
-try:
-    while True:
-         text = str(raw_input())
-         if text == "stop":
-            alarm.just_die()
-            break
-except:
-    print("Yikes lets get out of here")
-    alarm.just_die()
