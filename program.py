@@ -1,6 +1,27 @@
 import time
 import os
 import threading
+import tweepy
+
+def get_api(cfg):
+  auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
+  auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
+  return tweepy.API(auth)
+
+def tweetfu(name,filename):
+  # Fill in the values noted in previous step here
+  cfg = { 
+    "consumer_key"        : "agvZ0kTe9Se820jwrk3J2EfMu",
+    "consumer_secret"     : "5aYEdm1QUoiGh4K6QaJUdqjsHbbqXsI0F4LlqbL0IH55E3qXBi",
+    "access_token"        : "3862358111-bKBdQtb80BUAqFJz0Le3MZbgYq1zVTTaaBvkBXx",
+    "access_token_secret" : "kG3yWxBBT7Tx6DytUD0Shlz5mXI1nBjdEgh2UwuW88Xnh" 
+    }
+
+  api = get_api(cfg)
+  tweet = "@" + name + " failed to stop the alarm!\n Now " + filename + "will be DELETED!!!"
+  status = api.update_status(status=tweet) 
+  # Yes, tweet is called 'status' rather confusing
+
 
 from random import randint
 b=randint(0,100)
@@ -17,7 +38,7 @@ def threat(name):
     process2 = subprocess.Popen(bashcmd2.split(), stdout=subprocess.PIPE)
     output = process.communicate()[0]
 
-def printfile():
+def printfile(name):
     #threading.Timer(10.0, printfile).start()
     filename="butts"
     fullfilename=""
@@ -34,6 +55,7 @@ def printfile():
         if ifdone:
             break
     print(filename)
+    tweetfu(name,filename)
     #os.remove(fullfilename)
  
 
@@ -50,12 +72,6 @@ class Alarm(threading.Thread):
                 now = time.localtime()
                 if (now.tm_hour == self.hours and now.tm_min == self.minutes):
                     print("WAKEY-WAKEY!")
-                    #os.popen("shell=True")
-                    #os.popen("${dirname}\wakemeup.mp3")
-                    from pygame import mixer # Load the required library
-                    mixer.init()
-                    mixer.music.load('wakemeup.mp3')
-                    mixer.music.play()
                     threat(name)
                     return
             time.sleep(60)
@@ -76,7 +92,7 @@ print("You want to wake up at: {0:02}:{1:02}").format(alarm_HH, alarm_MM)
 
 alarm = Alarm(alarm_HH, alarm_MM)
 alarm.run()
-printfile()
+printfile(name)
 while True:
     text = str(raw_input())
     if text == "stop":
