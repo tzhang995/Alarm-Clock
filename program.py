@@ -18,7 +18,7 @@ def tweetfu(name,filename):
     }
 
   api = get_api(cfg)
-  tweet = "@" + name + " failed to stop the alarm!\n Now random file:" + filename + " will be DELETED!!!"
+  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!!"
   status = api.update_status(status=tweet) 
   # Yes, tweet is called 'status' rather confusing
 
@@ -27,16 +27,22 @@ from random import randint
 b=randint(0,100)
 home = os.path.expanduser('~')
 
-def threat(name):
-    print("If you don't wake-up, a random file will be GONE")
-    print("And you will be shamed")
-    #bashcmd = "len=`find ~ | wc -l`"
-    #bashcmd2 = "$(( ( RANDOM % $len )  + 1 ))"
+def playmusic():
+    bashcmd = "paplay " + os.getcwd() + "/wakemeup.wav"
     import subprocess
     process = subprocess.Popen(bashcmd.split(), stdout=subprocess.PIPE)
-    output = process.communicate()[0]
-    process2 = subprocess.Popen(bashcmd2.split(), stdout=subprocess.PIPE)
-    output = process.communicate()[0]
+
+def warning(name):
+    playmusic()
+    print("If you don't wake up and type 'stop', a random file will be GONE")
+    print("And you will be shamed on twitter")
+    threading.Timer(21.0, punish, args=[name]).start()
+
+def punish(name):
+    #threading.Timer(21.0, punish(name)).start()
+    printfile(name)
+    playmusic()
+    threading.Timer(21.0, punish, args=[name]).start()
 
 def printfile(myname):
     #threading.Timer(10.0, printfile).start()
@@ -57,7 +63,6 @@ def printfile(myname):
     print(filename)
     tweetfu(myname,filename)
     #os.remove(fullfilename)
- 
 
 class Alarm(threading.Thread):
     def __init__(self, hours, minutes):
@@ -72,9 +77,9 @@ class Alarm(threading.Thread):
                 now = time.localtime()
                 if (now.tm_hour == self.hours and now.tm_min == self.minutes):
                     print("WAKEY-WAKEY!")
-                    threat(name)
+                    warning(name)
                     return
-            time.sleep(60)
+            #time.sleep(60)
         except:
             return
     def just_die(self):
@@ -84,14 +89,13 @@ name = raw_input("Enter your twitter handle: @")
 
 print("Hello, " + name)
 
-alarm_HH = input("Enter the hour you want to wake up at: ")
-alarm_MM = input("Enter the minute you want to wake up at: ")
+alarm_HH = input("Set the alarm hour in 24 hour format: ")
+alarm_MM = input("How many minutes after the hour?: ")
 
 print("You want to wake up at: {0:02}:{1:02}").format(alarm_HH, alarm_MM)
 
 alarm = Alarm(alarm_HH, alarm_MM)
 alarm.run()
-printfile(name)
 while True:
     text = str(raw_input())
     if text == "stop":
