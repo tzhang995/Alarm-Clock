@@ -9,32 +9,42 @@ def get_api(cfg):
   return tweepy.API(auth)
 
 def tweetfu(name,filename):
-  # Fill in the values noted in previous step here
   cfg = { 
-    "consumer_key"        : "agvZ0kTe9Se820jwrk3J2EfMu",
-    "consumer_secret"     : "5aYEdm1QUoiGh4K6QaJUdqjsHbbqXsI0F4LlqbL0IH55E3qXBi",
-    "access_token"        : "3862358111-bKBdQtb80BUAqFJz0Le3MZbgYq1zVTTaaBvkBXx",
-    "access_token_secret" : "kG3yWxBBT7Tx6DytUD0Shlz5mXI1nBjdEgh2UwuW88Xnh" 
+    "consumer_key"        : "0cb9ntaAZ8HpiLvrGVondavsC",
+    "consumer_secret"     : "Bd2fUi50KqdEQrQLMGGS9o0FaKzVOGlGsWW5WzkIKwbF0oMbdA",
+    "access_token"        : "3862358111-LJsdnCDG2b1bJVQZIP7ONaO8zAYivl6qWd5M7E0",
+    "access_token_secret" : "KluU9GdVSbIPQUnwVLFXIk4pr0JhsChAiNbZhbvnSXceG" 
     }
 
   api = get_api(cfg)
-  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!!"
-  status = api.update_status(status=tweet) 
-  # Yes, tweet is called 'status' rather confusing
-
+  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!! #TerribleHack"
+  try:
+    status = api.update_status(status=tweet) 
+  except:
+    print("Error tweeting") 
 
 from random import randint
 b=randint(0,100)
 home = os.path.expanduser('~')
 
 def playmusic():
-    bashcmd = "paplay " + os.getcwd() + "/wakemeup.wav"
+    selection = randint(0,1)
+    songname = ""
+    if selection:
+        songname = "wakemeup"
+    else:
+        songname = "sheep"
     import subprocess
-    process = subprocess.Popen(bashcmd.split(), stdout=subprocess.PIPE)
+    try:
+        bashcmd = "paplay " + os.getcwd() + "/" + songname + ".wav"
+        process = subprocess.Popen(bashcmd.split(), stdout=subprocess.PIPE)
+    except:
+        bashcmd = "aplay " + os.getcwd() + "/" + songname + ".wav"
+        process = subprocess.Popen(bashcmd.split(), stdout=subprocess.PIPE)
 
 def warning(name):
     playmusic()
-    print("If you don't wake up and type 'stop', a random file will be GONE")
+    print("If you don't terminate the program, a random file will be GONE")
     print("And you will be shamed on twitter")
     threading.Timer(21.0, punish, args=[name]).start()
 
