@@ -3,14 +3,14 @@ from random import randint
 b=randint(0,100)
 home = os.path.expanduser('~')
 filename="butts"
+fullfilename=""
 ifdone=False
-print(home)
 for path, subdirs, files in os.walk(home):
     for name in files:
         from random import randint
         a=randint(0,100)
         if a==b:
-            #filename=os.path.join(path, name)
+            fullfilename=os.path.join(path, name)
             filename=name
             ifdone=True
             break
@@ -18,4 +18,4 @@ for path, subdirs, files in os.walk(home):
         break
 
 print(filename)
-        
+#os.remove(fullfilename)
