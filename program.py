@@ -1,3 +1,5 @@
+#Requires Tweepy and a linux machine with either ALSA or PulseAudio
+
 import time
 import os
 import threading
@@ -17,7 +19,7 @@ def tweetfu(name,filename):
     }
 
   api = get_api(cfg)
-  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!! #TerribleHack"
+  tweet = "@" + name + " failed to stop the alarm!\nNow random file:" + filename + " will be DELETED!!!"
   try:
     status = api.update_status(status=tweet) 
   except:
@@ -49,16 +51,15 @@ def warning(name):
     threading.Timer(21.0, punish, args=[name]).start()
 
 def punish(name):
-    #threading.Timer(21.0, punish(name)).start()
     printfile(name)
     playmusic()
     threading.Timer(21.0, punish, args=[name]).start()
 
 def printfile(myname):
-    #threading.Timer(10.0, printfile).start()
     filename="butts"
     fullfilename=""
     ifdone=False
+    home = os.path.expanduser('~')
     for path, subdirs, files in os.walk(home):
         for name in files:
             from random import randint
